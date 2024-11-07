@@ -19,14 +19,11 @@ iframe {
 }
 
 .grid-lista-nekretnina {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, 300px);
+    display: flex;
+    flex-wrap: wrap;
     gap: 20px;
     padding: 20px;
     justify-content: center;
-    /* Centriranje po horizontali */
-    align-content: center;
-    /* Centriranje po vertikali */
 }
 
 .nekretnina {
@@ -34,10 +31,10 @@ iframe {
     padding: 30px;
     background-color: white;
     text-align: center;
-    max-width: 300px;
+    width: 23%; 
     height: 400px;
+    box-sizing: border-box;
 }
-
 .nekretnina.kuca {
     background-color: powderblue;
 }

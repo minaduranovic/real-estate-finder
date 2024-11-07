@@ -10,12 +10,11 @@ body h3 {
 }
 
 iframe {
-  border: none; 
+  border: none;
   width: 100%;
   height: 50px;
 }
 
-/* Stil za div #osnovno */
 #osnovno {
   text-align: left;
   border: 1px solid #000;
@@ -28,7 +27,6 @@ iframe {
   height: auto;
 }
 
-/* Stil za div #detalji */
 #detalji {
   display: flex;
   flex-direction: row;
@@ -41,27 +39,22 @@ iframe {
   margin: 20px;
 }
 
-#kolona1 {
+#kolona1, #kolona2 {
   order: 1;
-  flex: 1 1 auto;
-  align-self: auto;
-}
-
-#kolona2 {
-  order: 2;
   flex: 1 1 auto;
   align-self: auto;
 }
 
 #opis {
   order: 3;
-  flex: 0 1 100%;
+  flex: 1 1 100%;
   align-self: auto;
 }
 
-
-/* Stil za div #upiti */
 #upiti {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
   border: 1px solid #000;
   padding: 20px;
   margin: 20px;
@@ -72,4 +65,45 @@ iframe {
   padding: 10px;
   margin-bottom: 10px;
   background-color: white;
+  flex: 1 1 45%; 
+}
+
+@media screen and (max-width: 600px) {
+  .upit {
+    display: none;
+  }
+
+  .upit:first-of-type {
+    display: block; 
+  }
+
+  .buttons-wrapper {
+    display: flex;
+    justify-content: space-evenly;
+    margin: 10px auto;
+  }
+
+  .buttons-wrapper button {
+    padding: 5px 10px;
+    font-size: 14px;
+    background-color: rgb(149, 196, 207);
+  }
+}
+
+@media screen and (min-width: 601px) and (max-width: 800px) {
+  .upit {
+    flex: 1 1 100%; 
+  }
+  .buttons-wrapper {
+    display: none;
+  }
+}
+
+@media screen and (min-width: 800px) {
+  .upit {
+    flex: 1 1 45%;
+  }
+  .buttons-wrapper {
+    display: none;
+  }
 }
