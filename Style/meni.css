@@ -39,7 +39,7 @@ a {
   margin-bottom: 10px;
 }
 
-i:hover {
+a:hover{
   color: #ff9900;
  transition: none;
 }
