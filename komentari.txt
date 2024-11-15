@@ -1,2 +1,19 @@
 1. zadatak
+U datoteku meni.html dodane su ikonice za svaki list element i dodan je jos jedan list element za novonapravljenu stranicu vijesti.html.
+U datoteci meni.css, koristi se property display: flex za prikaz elemenata liste sa flex-direction:column.
+Posto u anchor tagu sada imamo 2 elementa, poravnati cemo ih zajedno. 
+Sto se tice dodavanja animacije na ikonicu to radimo sa property-jem transition (pomice se gore) i transform.
+Tekst nestaje sa opacity: 0;
+
 2. zadatak
+Nakon sto su ispravljeni paths za slike u datoteci nekretnine.html, u css-u promijenjen je grid na flex, za kontejner sa nekretninama. Sirina kartica je malo povecana.
+
+3. zadatak
+U detalji.html dodana su dva dugmeta za slucaj ekrana manjih od 600px sto je regulisano u css-u. Pomocu @media su definisani properties za sve sirine ekrana, kako bi se zadovoljili dati uslovi.
+
+4. zadatak
+U novu datoteku vijesti.html napravljen je inicijalni raspored vijesti po kategorijama. U css-u se u zavisnosti od sirine ekrana formira odgovarajuci raspored uz pomoc grida.
+
+Opcenito komentari: 
+Sto se tice jedinica za velicinu, koriste se pretezno pikseli na citavoj stranici, sto bi trebalo da se izmijeni sa relativnim jedinicama (em ili rem) kako bi stranica bila responzivnija.
+Takodjer, neke velicine npr. za padding i margine bilo bi pozeljno grupisati u css varijable koje se mogu koristiti onda. Tako ce se postici simetricniji i ljepsi izgled stranice.
