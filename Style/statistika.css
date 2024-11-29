@@ -1,0 +1,133 @@
+body {
+    background-color: #fdf1d3;
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+iframe {
+    border: none;
+    width: 100%;
+    height: 50px;
+}
+
+h1, h2 {
+    text-align: center;
+}
+
+div {
+    margin-bottom: 10px;
+}
+
+label {
+    display: block;
+    margin-bottom: 5px;
+    text-align: center;
+}
+
+input, button, select {
+    display: block;
+    width: 90%; 
+    max-width: 600px; 
+    margin: 10px auto; 
+    padding: 10px;
+    box-sizing: border-box;
+}
+
+
+input {
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.od-do-wrapper {
+    display: flex;
+    justify-content: space-between;
+    margin: 1%;
+    gap: 10px;
+}
+
+.dodaj-ukloni {
+    align-items: center;
+    margin-left: 1%;
+}
+
+.wrapper-funkcije {
+    margin: 1% auto;
+    width: 100%;
+    max-width: 800px;
+    text-align: center;
+    box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 5px;
+    border: 1px solid #000000;
+    padding: 1% 3%;
+
+}
+
+.nekretnina {
+    display: inline-block;
+    vertical-align: top;
+    width: 100%;
+    max-width: 500px;
+    margin: 10px;
+    border: 1px solid #ccc;
+    padding: 10px;
+    box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 5px;
+    text-align: left;
+}
+
+.container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 15px;
+}
+#histogramChart{
+    margin: 1% auto;
+    width: 90%;
+    max-width: 800px;
+    text-align: center;
+}
+
+button {
+    background-color: #4ca2af;  
+    color: white; 
+    border: none; 
+    border-radius: 5px; 
+    padding: 10px 20px; 
+    width: 100%; 
+    box-sizing: border-box;  
+    margin-top: 10px;
+}
+
+button:hover {
+    background-color: #59aab2;  
+}
+
+
+.button-group {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 10px; 
+    margin: 10px auto;
+    width: 90%; 
+    max-width: 600px;
+}
+
+
+.button-group button:first-child {
+    flex: 1; 
+}
+
+.button-group .reset-button {
+    width: 20%;  
+    background-color: #ff6f61;  
+}
+
+.button-group .reset-button:hover {
+    background-color: #e03e3b; 
+    border-color: #ff6f61; 
+}

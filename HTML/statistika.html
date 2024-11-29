@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="bs-BA">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Statistika Nekretnina</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="../Scripts/SpisakNekretnina.js" defer></script>
+    <script src="../Scripts/StatistikaNekretnina.js" defer></script>
+    <script src="../Scripts/statistika.js" defer></script>
+    <link rel="stylesheet" type="text/css" href="../Style/statistika.css">
+</head>
+<body>
+    <iframe src="meni.html"></iframe>
+
+    <h1>Statistika nekretnina</h1>
+
+    <div class="wrapper-funkcije">
+        <h2>Histogram</h2>
+
+        <label for="periodi">Periodi (format: od-do):</label>
+        <div id="periodi-container">
+                <div class="od-do-wrapper">
+                <input type="number" placeholder="Od" class="period-od"> -
+                <input type="number" placeholder="Do" class="period-do">
+                <button class="dodaj-ukloni" type="button" onclick="dodajPeriod()">+</button>
+            </div>
+    </div>
+
+        <label for="rasponiCijena">Rasponi cijena (format: od-do):</label>
+        <div id="rasponi-container">
+                <div class="od-do-wrapper">
+                <input type="number" placeholder="Od" class="raspon-od"> -
+                <input type="number" placeholder="Do" class="raspon-do">
+                <button type="button" class="dodaj-ukloni" onclick="dodajRaspon()">+</button>
+            </div>
+    </div>
+    <div class="button-group">
+    <button class="histogram-button" onclick="iscrtajHistogram()">Iscrtaj histogram</button>
+    <button class="reset-button" onclick="resetHistogram()">Reset</button>
+</div>
+    <canvas id="histogramChart"  ></canvas>
+
+</div>
+<div id="ostale-funkcije">
+    <div class="wrapper-funkcije">
+
+    <h2>Prosječna kvadratura i Outlieri</h2>
+        <div>
+            <label for="svojstvo">Odaberite kriterij:</label>
+            <select id="svojstvo" onchange="dodatneVrijednosti()">
+                <option value="tip_nekretnine">Tip nekretnine</option>
+                <option value="kvadratura">Kvadratura</option>
+                <option value="cijena">Cijena</option>
+                <option value="tip_grijanja">Tip grijanja</option>
+                <option value="lokacija">Lokacija</option>
+                <option value="godina_izgradnje">Godina izgradnje</option>
+                <option value="datum_objave">Datum objave</option>
+                <option value="opis">Opis</option>
+            </select>
+        </div>
+        <div id="vrijednost-container">
+            <label for="vrijednost">Unesite vrijednost:</label>
+            <input type="text" id="vrijednost" placeholder="Unesite vrijednost">
+        </div>
+        <div>
+            <label for="nazivSvojstva">Odaberite svojstvo za koji želite outlier:</label>
+            <select id="nazivSvojstva">
+                <option value="tip_nekretnine">Tip nekretnine</option>
+                <option value="kvadratura">Kvadratura</option>
+                <option value="cijena">Cijena</option>
+                <option value="tip_grijanja">Tip grijanja</option>
+                <option value="lokacija">Lokacija</option>
+                <option value="godina_izgradnje">Godina izgradnje</option>
+                <option value="datum_objave">Datum objave</option>
+                <option value="opis">Opis</option>
+            </select>
+        </div>
+        <div class="button-group">
+        <button onclick="prikaziProsjecnuKvadraturu()">Prikaži prosječnu kvadraturu</button>
+        <button class="reset-button" onclick="resetProsjecnaKvadratura()">Reset</button>
+    </div>
+        <div id="prosjecna-kvadratura"></div>
+        <div class="button-group">
+        <button onclick="prikaziOutlier()">Prikaži outlier</button>
+        <button class="reset-button" onclick="resetOutlier()">Reset</button>
+    </div>
+        <div id="outlier"></div>
+    </div>
+
+    <div class="wrapper-funkcije">
+        <h2>Moje nekretnine</h2>
+    <div>
+        <label for="korisnik">Unesite username korisnika:</label>
+        <input type="text" id="korisnik" placeholder="username1">
+    </div>
+    <div class="button-group">
+    <button onclick="prikaziMojeNekretnine()">Prikaži moje nekretnine</button>
+    <button class="reset-button" onclick="resetMojeNekretnine()">Reset</button>
+</div>
+    <div class="moje-nekretnine"></div>
+
+    </div>
+</body>
+</html>
