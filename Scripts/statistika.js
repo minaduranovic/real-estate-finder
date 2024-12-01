@@ -1,140 +1,24 @@
-const listaNekretnina = [
-  {
-    id: 1,
-    tip_nekretnine: "Stan",
-    naziv: "Useljiv stan Sarajevo",
-    kvadratura: 58,
-    cijena: 232000,
-    tip_grijanja: "plin",
-    lokacija: "Novo Sarajevo",
-    godina_izgradnje: 2019,
-    datum_objave: "01.10.2023.",
-    opis: "Sociis natoque penatibus.",
-    upiti: [
-      {
-        korisnik_id: 1,
-        tekst_upita: "Nullam eu pede mollis pretium.",
-      },
-      {
-        korisnik_id: 2,
-        tekst_upita: "Phasellus viverra nulla.",
-      },
-    ],
-  },
-  {
-    id: 1,
-    tip_nekretnine: "Stan",
-    naziv: "Useljiv stan Sarajevo",
-    kvadratura: 58,
-    cijena: 32000,
-    tip_grijanja: "plin",
-    lokacija: "Novo Sarajevo",
-    godina_izgradnje: 2019,
-    datum_objave: "01.10.2009.",
-    opis: "Sociis natoque penatibus.",
-    upiti: [
-      {
-        korisnik_id: 1,
-        tekst_upita: "Nullam eu pede mollis pretium.",
-      },
-      {
-        korisnik_id: 2,
-        tekst_upita: "Phasellus viverra nulla.",
-      },
-    ],
-  },
-  {
-    id: 1,
-    tip_nekretnine: "Stan",
-    naziv: "Useljiv stan Sarajevo",
-    kvadratura: 58,
-    cijena: 232000,
-    tip_grijanja: "plin",
-    lokacija: "Novo Sarajevo",
-    godina_izgradnje: 2019,
-    datum_objave: "01.10.2003.",
-    opis: "Sociis natoque penatibus.",
-    upiti: [
-      {
-        korisnik_id: 1,
-        tekst_upita: "Nullam eu pede mollis pretium.",
-      },
-      {
-        korisnik_id: 2,
-        tekst_upita: "Phasellus viverra nulla.",
-      },
-    ],
-  },
-  {
-    id: 2,
-    tip_nekretnine: "Kuća",
-    naziv: "Mali poslovni prostor",
-    kvadratura: 20,
-    cijena: 70000,
-    tip_grijanja: "struja",
-    lokacija: "Centar",
-    godina_izgradnje: 2005,
-    datum_objave: "20.08.2023.",
-    opis: "Magnis dis parturient montes.",
-    upiti: [
-      {
-        korisnik_id: 2,
-        tekst_upita: "Integer tincidunt.",
-      },
-    ],
-  },
-  {
-    id: 3,
-    tip_nekretnine: "Kuća",
-    naziv: "Mali poslovni prostor",
-    kvadratura: 20,
-    cijena: 70000,
-    tip_grijanja: "struja",
-    lokacija: "Centar",
-    godina_izgradnje: 2005,
-    datum_objave: "20.08.2023.",
-    opis: "Magnis dis parturient montes.",
-    upiti: [
-      {
-        korisnik_id: 2,
-        tekst_upita: "Integer tincidunt.",
-      },
-    ],
-  },
-  {
-    id: 4,
-    tip_nekretnine: "Kuća",
-    naziv: "Mali poslovni prostor",
-    kvadratura: 20,
-    cijena: 70000,
-    tip_grijanja: "struja",
-    lokacija: "Centar",
-    godina_izgradnje: 2005,
-    datum_objave: "20.08.2023.",
-    opis: "Magnis dis parturient montes.",
-    upiti: [
-      {
-        korisnik_id: 2,
-        tekst_upita: "Integer tincidunt.",
-      },
-    ],
-  },
-];
+function popuniDropdownKorisnika() {
+  const korisnikDropdown = document.getElementById("korisnik");
 
-const listaKorisnika = [
-  {
-    id: 1,
-    ime: "Neko",
-    prezime: "Nekic",
-    username: "username1",
-  },
-  {
-    id: 2,
-    ime: "Neko2",
-    prezime: "Nekic2",
-    username: "username2",
-  },
-];
+  korisnikDropdown.innerHTML = "";
+
+  const defaultOption = document.createElement("option");
+  defaultOption.value = "";
+  defaultOption.textContent = "Odaberite korisnika";
+  defaultOption.disabled = true;
+  defaultOption.selected = true;
+  korisnikDropdown.appendChild(defaultOption);
+
+  listaKorisnika.forEach((korisnik) => {
+    const option = document.createElement("option");
+    option.value = korisnik.username;
+    option.textContent = `${korisnik.ime} ${korisnik.prezime} (${korisnik.username})`;
+    korisnikDropdown.appendChild(option);
+  });
+}
+
+document.addEventListener("DOMContentLoaded", popuniDropdownKorisnika);
 
 function dodajPeriod() {
   const container = document.getElementById("periodi-container");
@@ -216,6 +100,7 @@ function prikaziNekretninu(nekretnina) {
   `;
   return nekretninaDiv;
 }
+
 function dodatneVrijednosti() {
   const svojstvo = document.getElementById("svojstvo").value;
   const vrijednostContainer = document.getElementById("vrijednost-container");
@@ -238,27 +123,48 @@ function dodatneVrijednosti() {
 
 function getKriterij() {
   const svojstvo = document.getElementById("svojstvo").value;
-  let kriterij;
+  let kriterij = {};
 
-  if (svojstvo === "kvadratura" || svojstvo === "cijena") {
-    const minVrijednost = parseFloat(document.getElementById("minVrijednost").value);
-    const maxVrijednost = parseFloat(document.getElementById("maxVrijednost").value);
-
-    if (isNaN(minVrijednost) || isNaN(maxVrijednost)) {
-      alert("Molimo unesite ispravne vrijednosti za minimalnu i maksimalnu vrijednost.");
-      return null; 
-    }
-
-    kriterij = { min: minVrijednost, max: maxVrijednost };
-  } else {
-    const vrijednost = document.getElementById("vrijednost").value;
-    if (!vrijednost) {
-      alert("Molimo unesite vrijednost za odabrano svojstvo.");
-      return null;  
-    }
-    kriterij = isNaN(vrijednost) ? vrijednost : parseFloat(vrijednost);
+  if (!svojstvo) {
+    alert("Molimo odaberite svojstvo.");
+    return null;
   }
 
+  if (svojstvo === "kvadratura" || svojstvo === "cijena") {
+    const minVrijednost = parseFloat(
+      document.getElementById("minVrijednost").value
+    );
+    const maxVrijednost = parseFloat(
+      document.getElementById("maxVrijednost").value
+    );
+
+    if (isNaN(minVrijednost) || isNaN(maxVrijednost)) {
+      alert(
+        "Molimo unesite ispravne vrijednosti za minimalnu i maksimalnu vrijednost."
+      );
+      return null;
+    }
+
+    kriterij[svojstvo] = { min: minVrijednost, max: maxVrijednost };
+  } else {
+    let vrijednost = document.getElementById("vrijednost").value;
+
+    if (!vrijednost) {
+      alert("Molimo unesite vrijednost za odabrano svojstvo.");
+      return null;
+    }
+
+    // Ako je vrijednost tekst, pretvori prvo slovo u veliko, a ostale u mala
+    if (isNaN(vrijednost)) {
+      vrijednost = vrijednost.charAt(0).toUpperCase() + vrijednost.slice(1).toLowerCase();
+    } else {
+      vrijednost = parseFloat(vrijednost); // Ako je broj, ostavi ga kao broj
+    }
+
+    kriterij[svojstvo] = vrijednost;
+  }
+
+  // console.log("Kriterij:", kriterij);
   return kriterij;
 }
 
@@ -287,7 +193,7 @@ function iscrtajHistogram() {
       }
       return { od, do: doVrijednost };
     });
-    console.log(periodi);
+    // console.log(periodi);
 
     const rasponiCijena = rasponiOd.map((od, i) => {
       const doVrijednost = rasponiDo[i];
@@ -296,13 +202,13 @@ function iscrtajHistogram() {
       }
       return { od, do: doVrijednost };
     });
-    console.log(rasponiCijena);
+    // console.log(rasponiCijena);
 
     const statistika = StatistikaNekretnina();
     statistika.init(listaNekretnina, listaKorisnika);
 
     let histogramData = statistika.histogramCijena(periodi, rasponiCijena);
-    console.log("Histogram Data:", histogramData);
+    // console.log("Histogram Data:", histogramData);
 
     const canvas = document.getElementById("histogramChart");
     const labels = rasponiCijena.map((range) => `${range.od} - ${range.do}`);
@@ -382,7 +288,7 @@ function iscrtajHistogram() {
 
 function prikaziProsjecnuKvadraturu() {
   const kriterij = getKriterij();
-  if (!kriterij) return; 
+  if (!kriterij) return;
 
   const statistika = StatistikaNekretnina();
   statistika.init(listaNekretnina, listaKorisnika);
@@ -395,7 +301,7 @@ function prikaziProsjecnuKvadraturu() {
 
 function prikaziOutlier() {
   const kriterij = getKriterij();
-  if (!kriterij) return;  
+  if (!kriterij) return;
 
   const nazivSvojstva = document.getElementById("nazivSvojstva").value;
   const statistika = StatistikaNekretnina();
@@ -413,17 +319,26 @@ function prikaziOutlier() {
   }
 }
 
-
 function prikaziMojeNekretnine() {
-  const korisnikIme = document.getElementById("korisnik").value;
+  const korisnikDropdown = document.getElementById("korisnik").value;
+  const korisnikInput = document.getElementById("korisnik-text").value;
+
+  // Prioritet dajemo unesenom korisničkom imenu
+  const korisnikIme = korisnikDropdown || korisnikInput;
 
   const korisnik = listaKorisnika.find((k) => k.username === korisnikIme);
+
+  if (!korisnik) {
+    alert("Korisnik nije pronađen.");
+    return;
+  }
+
   const statistika = StatistikaNekretnina();
   statistika.init(listaNekretnina, listaKorisnika);
   const mojeNekretnine = statistika.mojeNekretnine(korisnik);
 
   const container = document.querySelector(".moje-nekretnine");
-  container.innerHTML = ""; 
+  container.innerHTML = "";
 
   if (mojeNekretnine.length > 0) {
     mojeNekretnine.forEach((nekretnina) => {
@@ -434,9 +349,6 @@ function prikaziMojeNekretnine() {
     container.innerHTML = "Nema nekretnina za prikaz.";
   }
 }
-
-
-
 
 function resetHistogram() {
   const periodiContainer = document.getElementById("periodi-container");
@@ -458,17 +370,16 @@ function resetHistogram() {
   `;
   const canvas = document.getElementById("histogramChart");
   const ctx = canvas.getContext("2d");
-  ctx.clearRect(0, 0, canvas.width, canvas.height); 
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
 
   if (window.histogramInstance) {
-      window.histogramInstance.destroy(); 
-      window.histogramInstance = null;
+    window.histogramInstance.destroy();
+    window.histogramInstance = null;
   }
 }
 
-
 function resetProsjecnaKvadratura() {
-  document.getElementById("prosjecna-kvadratura").innerHTML = ""; 
+  document.getElementById("prosjecna-kvadratura").innerHTML = "";
   document.getElementById("svojstvo").selectedIndex = 0;
   document.getElementById("nazivSvojstva").selectedIndex = 0;
   const vrijednostContainer = document.getElementById("vrijednost-container");
@@ -491,8 +402,8 @@ function resetOutlier() {
 }
 
 function resetMojeNekretnine() {
-  document.getElementById("korisnik").value = ""; 
+  document.getElementById("korisnik").value = "";
+  document.getElementById("korisnik-text").value = "";
   const container = document.querySelector(".moje-nekretnine");
   container.innerHTML = "";
 }
-
