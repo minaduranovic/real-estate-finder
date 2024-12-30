@@ -154,16 +154,14 @@ function getKriterij() {
       return null;
     }
 
-    // Ako je vrijednost tekst, pretvori prvo slovo u veliko, a ostale u mala
     if (isNaN(vrijednost)) {
       vrijednost = vrijednost.charAt(0).toUpperCase() + vrijednost.slice(1).toLowerCase();
     } else {
-      vrijednost = parseFloat(vrijednost); // Ako je broj, ostavi ga kao broj
+      vrijednost = parseFloat(vrijednost); 
     }
 
     kriterij[svojstvo] = vrijednost;
   }
-
   // console.log("Kriterij:", kriterij);
   return kriterij;
 }
