@@ -186,12 +186,33 @@ const PoziviAjax = (() => {
         ajax.send()
     }
 
+
+     function getTop5Nekretnina(lokacija, fnCallback) {
+        ajaxRequest('GET', `/nekretnine/top5?lokacija=${encodeURIComponent(lokacija)}`, null, fnCallback);
+    }
+
+    function getMojiUpiti(fnCallback) {
+        ajaxRequest('GET', '/upiti/moji', null, fnCallback);
+    }
+
+    function getNekretnina(nekretnina_id, fnCallback) {
+        ajaxRequest('GET', `/nekretnine/${encodeURIComponent(nekretnina_id)}`, null, fnCallback);
+    }
+
+    function getNextUpiti(nekretnina_id, page, fnCallback) {
+        ajaxRequest('GET', `/upiti/${encodeURIComponent(nekretnina_id)}/page/${encodeURIComponent(page)}`, null, fnCallback);
+    }
+
     return {
         postLogin: impl_postLogin,
         postLogout: impl_postLogout,
         getKorisnik: impl_getKorisnik,
         putKorisnik: impl_putKorisnik,
         postUpit: impl_postUpit,
-        getNekretnine: impl_getNekretnine
+        getNekretnine: impl_getNekretnine,
+        getTop5Nekretnina,
+        getMojiUpiti,
+        getNekretnina,
+        getNextUpiti
     };
 })();

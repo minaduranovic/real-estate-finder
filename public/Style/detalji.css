@@ -68,7 +68,6 @@ iframe {
   flex: 1 1 45%; 
 }
 
-@media screen and (max-width: 600px) {
   .upit {
     display: none;
   }
@@ -88,9 +87,9 @@ iframe {
     font-size: 14px;
     background-color: rgb(149, 196, 207);
   }
-}
 
-@media screen and (min-width: 601px) and (max-width: 800px) {
+
+/* @media screen and (min-width: 601px) and (max-width: 800px) {
   .upit {
     flex: 1 1 100%; 
   }
@@ -106,4 +105,4 @@ iframe {
   .buttons-wrapper {
     display: none;
   }
-}
+} */

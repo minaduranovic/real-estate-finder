@@ -12,7 +12,7 @@ document.addEventListener("DOMContentLoaded", () => {
     let carousel = null;
 
     function inicijalizujCarousel() {
-        if (window.innerWidth <= 600) {
+        // if (window.innerWidth <= 600) {
             if (!carousel) { 
                 carousel = postaviCarousel(glavniElement, sviUpiti);
                 if (carousel) {
@@ -22,14 +22,14 @@ document.addEventListener("DOMContentLoaded", () => {
                     console.error("Greška pri kreiranju carousel-a.");
                 }
             }
-        } else {
-            if (carousel) {
-                prevDugme.removeEventListener("click", carousel.fnLijevo);
-                nextDugme.removeEventListener("click", carousel.fnDesno);
-                carousel = null;
-            }
-            glavniElement.innerHTML = sviUpiti.map(el => el.outerHTML).join(""); 
-        }
+        // } else {
+        //     if (carousel) {
+        //         prevDugme.removeEventListener("click", carousel.fnLijevo);
+        //         nextDugme.removeEventListener("click", carousel.fnDesno);
+        //         carousel = null;
+        //     }
+        //     glavniElement.innerHTML = sviUpiti.map(el => el.outerHTML).join(""); 
+        // }
     }
 
     inicijalizujCarousel();
