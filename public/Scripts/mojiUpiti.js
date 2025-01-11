@@ -11,7 +11,7 @@ document.addEventListener("DOMContentLoaded", () => {
         
             try {
                 if (typeof data === "string") {
-                    data = JSON.parse(data); // Parsiranje u JSON format ako nije već parsirano
+                    data = JSON.parse(data); 
                 }
             } catch (e) {
                 console.error("Greška pri parsiranju JSON podataka:", e);

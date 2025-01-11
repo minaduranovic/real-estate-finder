@@ -196,11 +196,21 @@ const PoziviAjax = (() => {
     }
 
     function getNekretnina(nekretnina_id, fnCallback) {
-        ajaxRequest('GET', `/nekretnine/${encodeURIComponent(nekretnina_id)}`, null, fnCallback);
-    }
-
+        ajaxRequest('GET', `/nekretnina/${encodeURIComponent(nekretnina_id)}`, null, fnCallback);
+    }``
     function getNextUpiti(nekretnina_id, page, fnCallback) {
-        ajaxRequest('GET', `/upiti/${encodeURIComponent(nekretnina_id)}/page/${encodeURIComponent(page)}`, null, fnCallback);
+        ajaxRequest('GET', `/next/upiti/nekretnina${nekretnina_id}?page=${page}`, null, (error, data) => {
+            if (error) {
+                fnCallback(error, null);
+            } else {
+                try {
+                    const upiti = JSON.parse(data);
+                    fnCallback(null, upiti);
+                } catch (parseError) {
+                    fnCallback(parseError, null);
+                }
+            }
+        });
     }
 
     return {

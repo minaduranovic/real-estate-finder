@@ -18,6 +18,33 @@
       {
         "korisnik_id": 2,
         "tekst_upita": "Phasellus viverra nulla."
+      },
+      {
+        "korisnik_id": 2,
+        "tekst_upita": "3"
+      },
+      {
+        "korisnik_id": 2,
+        "tekst_upita": "4"
+      },
+      {
+        "korisnik_id": 2,
+        "tekst_upita": "5"
+      },
+      {
+        "korisnik_id": 2,
+        "tekst_upita": "6"
+      },
+      {
+        "korisnik_id": 2,
+        "tekst_upita": "7"
+      },{
+        "korisnik_id": 2,
+        "tekst_upita": "8"
+      },
+      {
+        "korisnik_id": 2,
+        "tekst_upita": "9"
       }
     ]
   },
