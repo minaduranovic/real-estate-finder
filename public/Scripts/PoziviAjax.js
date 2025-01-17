@@ -197,7 +197,8 @@ const PoziviAjax = (() => {
 
     function getNekretnina(nekretnina_id, fnCallback) {
         ajaxRequest('GET', `/nekretnina/${encodeURIComponent(nekretnina_id)}`, null, fnCallback);
-    }``
+    }
+    
     function getNextUpiti(nekretnina_id, page, fnCallback) {
         ajaxRequest('GET', `/next/upiti/nekretnina${nekretnina_id}?page=${page}`, null, (error, data) => {
             if (error) {

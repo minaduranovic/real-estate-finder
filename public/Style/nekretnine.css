@@ -1,17 +1,25 @@
 body {
     background-color: #fdf1d3;
     font-family: Arial, sans-serif;
-    margin: 0;
+    margin: 0px;
     padding: 0;
 }
 
 iframe {
+    position: fixed;
     border: none; 
     width: 100%;
     height: 50px;
+    top: 0;
 }
 
-.tip-nekretnine {
+#search-container {
+    margin-top: 70px;
+    margin-bottom: 30px;
+}
+
+
+h1 {
     text-align: center;
     font-weight: bold;
     font-size: 24px;
@@ -19,11 +27,14 @@ iframe {
 }
 
 .grid-lista-nekretnina {
-    display: flex;
-    flex-wrap: wrap;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, 300px);
     gap: 20px;
     padding: 20px;
     justify-content: center;
+    /* Centriranje po horizontali */
+    align-content: center;
+    /* Centriranje po vertikali */
 }
 
 .nekretnina {
@@ -31,10 +42,10 @@ iframe {
     padding: 30px;
     background-color: white;
     text-align: center;
-    width: 23%; 
+    max-width: 300px;
     height: 400px;
-    box-sizing: border-box;
 }
+
 .nekretnina.kuca {
     background-color: powderblue;
 }
@@ -46,6 +57,7 @@ iframe {
 .slika-nekretnine {
     max-width: 100%;
     height: 50%;
+    margin-top: 20px;
 }
 
 .detalji-nekretnine {
@@ -63,10 +75,10 @@ iframe {
 
 .cijena-nekretnine {
     text-align: right;
+    margin-bottom: 40px;
 }
 
 .detalji-dugme {
-    margin: 20px auto;
     background-color: #ff9900;
     color: white;
     padding: 10px 20px;
@@ -74,4 +86,14 @@ iframe {
     border: none;
     border-radius: 5px;
     cursor: pointer;
+}
+
+.grid-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    place-items: center; /* Centriranje horizontalno i vertikalno */
+}
+
+#dugmePretraga {
+    grid-column: span 2; /* Dugme će zauzeti oba fr */
 }

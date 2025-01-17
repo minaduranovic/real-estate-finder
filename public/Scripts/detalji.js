@@ -26,7 +26,6 @@ function prikaziDetalje(nekretnina) {
 
   let k = 2;
 
-  const ukupnoUpitaUNekretnini = nekretnina.upiti.length;
   let trenutnaStranica = 0;
   let sviUpiti = [...nekretnina.upiti];
   let ukupnoUcitano = sviUpiti.length;
@@ -99,24 +98,28 @@ function prikaziDetalje(nekretnina) {
 }
 
 const nekretninaId = getQueryParam("id");
+
 if (nekretninaId) {
-  PoziviAjax.getNekretnina(nekretninaId, (error, data) => {
-    if (error) {
-      console.error("Error fetching property details:", error);
-      alert("Došlo je do greške pri dohvaćanju podataka o nekretnini.");
-    } else {
-      try {
-        const nekretnina = JSON.parse(data);
-        prikaziDetalje(nekretnina);
-      } catch (parseError) {
-        console.error("Error parsing response:", parseError);
-        alert("Došlo je do greške u obradi podataka.");
+  setTimeout(() => {
+    PoziviAjax.getNekretnina(nekretninaId, (error, data) => {
+      if (error) {
+        console.error("Error fetching property details:", error);
+        alert("Došlo je do greške pri dohvaćanju podataka o nekretnini.");
+      } else {
+        try {
+          const nekretnina = JSON.parse(data);
+          prikaziDetalje(nekretnina);
+        } catch (parseError) {
+          console.error("Error parsing response:", parseError);
+          alert("Došlo je do greške u obradi podataka.");
+        }
       }
-    }
-  });
+    });
+  }, 1000);
 } else {
   alert("Nema ID-a u URL-u!");
 }
+
 document.addEventListener("click", function (event) {
   if (event.target && event.target.id === "top5Link") {
     event.preventDefault();
