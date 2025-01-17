@@ -38,7 +38,7 @@ function prikaziDetalje(nekretnina) {
     div.innerHTML = `<p><strong>Korisnik ${upit.korisnik_id}</strong>: ${upit.tekst_upita}</p>`;
     upitiDiv.appendChild(div);
   });
-  console.log("Svi učitani upiti:", sviUpiti);
+  // console.log("Svi učitani upiti:", sviUpiti);
 
   const sviElementi = Array.from(upitiDiv.querySelectorAll(".upit"));
 
@@ -57,7 +57,7 @@ function prikaziDetalje(nekretnina) {
     sviElementi[indeks].id = ""; 
     sviElementi[novi].id = "prikazujeSe"; 
     indeks = novi;
-    console.log("Trenutni indeks:", indeks);
+    // console.log("Trenutni indeks:", indeks);
   });
 
   let desnoDugme = document.getElementById("nextBtn");
@@ -79,7 +79,7 @@ function prikaziDetalje(nekretnina) {
           if (error) {
             console.error("Greška prilikom učitavanja sledećih upita:", error);
           } else {
-            console.log("Učitani sledeći upiti:", newUpiti);
+            // console.log("Učitani sledeći upiti:", newUpiti);
             if (newUpiti.length > 0) {
               ukupnoUcitano += newUpiti.length;
               newUpiti.forEach((upit) => {

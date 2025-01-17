@@ -425,7 +425,6 @@ app.get("/next/upiti/nekretnina:id", async (req, res) => {
     const validKraj = Math.max(kraj, 0);
 
     const nextUpiti = nekretnina.upiti.slice(validPocetak, validKraj);
-    console.log("Učitani upiti:", nextUpiti);
 
     if (nextUpiti.length === 0) {
       return res.status(200).json([]);
@@ -477,7 +476,6 @@ app.put("/korisnik", async (req, res) => {
     if (password) {
       // Hash the new password
       const hashedPassword = await bcrypt.hash(password, 10);
-      console.log();
       loggedInUser.password = hashedPassword;
     }
 
