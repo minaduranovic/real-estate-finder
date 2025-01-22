@@ -54,8 +54,8 @@ function prikaziDetalje(nekretnina) {
   lijevoDugme.addEventListener("click", () => {
     let novi = (indeks - 1 + sviElementi.length) % sviElementi.length;
     carousel.fnLijevo();
-    sviElementi[indeks].id = ""; 
-    sviElementi[novi].id = "prikazujeSe"; 
+    sviElementi[indeks].id = "";
+    sviElementi[novi].id = "prikazujeSe";
     indeks = novi;
     console.log("Trenutni indeks:", indeks);
   });
@@ -64,8 +64,8 @@ function prikaziDetalje(nekretnina) {
   desnoDugme.addEventListener("click", () => {
     let novi = (indeks + 1) % sviElementi.length;
     carousel.fnDesno();
-    sviElementi[indeks].id = ""; 
-    sviElementi[novi].id = "prikazujeSe"; 
+    sviElementi[indeks].id = "";
+    sviElementi[novi].id = "prikazujeSe";
     indeks = novi;
 
     // console.log('Trenutni indeks:', indeks);
@@ -167,3 +167,120 @@ function prikaziTop5Nekretnina(nekretnine) {
         </ul>
     `;
 }
+
+// function handleUserOfferSelection(korisnik) {
+//   // Dobijanje korisničkog ID-a iz korisničkih podataka
+//   const korisnikId = korisnik.id; // Pretpostavka da korisnik objekat ima 'id' atribut
+//   console.log(korisnikId);
+//   // Sada možete koristiti korisnikId da pozovete ponude
+//   PoziviAjax.getPonudeZaKorisnika(nekretninaId, korisnikId, (error, ponude) => {
+//     const dodatnaPoljaDiv = document.getElementById("dodatnaPolja");
+//     if (error) {
+//       console.error("Greška pri dohvaćanju ponuda:", error);
+//       dodatnaPoljaDiv.innerHTML = "<p>Došlo je do greške.</p>";
+//     } else {
+//       const options = ponude
+//         .map((ponuda) => `<option value="${ponuda.id}">${ponuda.id}</option>`)
+//         .join("");
+//       dodatnaPoljaDiv.innerHTML = `
+//               <label for="vezanaPonuda">ID vezane ponude:</label>
+//               <select id="vezanaPonuda" name="vezanaPonuda" ${
+//                 options ? "" : "disabled"
+//               }>
+//                   ${options || "<option value=''>Nema ponuda</option>"}
+//               </select>
+//               <label for="tekstPonude">Tekst:</label>
+//               <textarea id="tekstPonude" name="tekstPonude" required></textarea>
+//           `;
+//     }
+//   });
+// }
+
+// // Funkcija koja se poziva kada stranica učita korisničke podatke
+// function loadUserDataAndProceed() {
+//   PoziviAjax.getKorisnik((error, korisnik) => {
+//     if (error) {
+//       console.error("Greška pri dobijanju korisničkih podataka:", error);
+//       alert("Došlo je do greške pri učitavanju korisničkih podataka.");
+//     } else {
+//       console.log("Korisnik uspešno učitan:", korisnik);
+//       // Ovdje možete implementirati logiku koja zavisi od korisničkih podataka,
+//       // kao što je pozivanje ponuda za korisnika.
+//       handleUserOfferSelection(korisnik);
+//     }
+//   });
+// }
+
+// window.onload = loadUserDataAndProceed;
+// Funkcija koja se poziva kada se odabere tip interesovanja
+function handleInterestTypeChange(event) {
+  const tipInteresovanja = event.target.value;
+  const dodatnaPoljaDiv = document.getElementById("dodatnaPolja");
+
+  if (tipInteresovanja === "ponuda") {
+    dodatnaPoljaDiv.innerHTML = `
+      <label for="vezanaPonuda">ID vezane ponude:</label>
+      <select id="vezanaPonuda" name="vezanaPonuda"></select>
+      <label for="tekstPonude">Tekst ponude:</label>
+      <textarea id="tekstPonude" name="tekstPonude" required></textarea>
+    `;
+    loadUserOffers();
+  } else if (tipInteresovanja === "zahtjev" || tipInteresovanja === "upit") {
+    dodatnaPoljaDiv.innerHTML = `
+      <label for="tekstInteresovanja">Tekst:</label>
+      <textarea id="tekstInteresovanja" name="tekstInteresovanja" required></textarea>
+    `;
+  }
+}
+
+// Funkcija za učitavanje ponuda za vezane ponude korisnika
+function loadUserOffers() {
+  PoziviAjax.getKorisnik((error, korisnik) => {
+    if (error) {
+      console.error("Greška pri dobijanju korisničkih podataka:", error);
+      return;
+    }
+
+    const korisnikId = korisnik.id;
+    PoziviAjax.getPonudeZaKorisnika(nekretninaId, korisnikId, (error, ponude) => {
+      const vezanaPonudaSelect = document.getElementById("vezanaPonuda");
+      if (error) {
+        console.error("Greška pri dohvaćanju ponuda:", error);
+        vezanaPonudaSelect.innerHTML = "<option value=''>Nema ponuda</option>";
+        vezanaPonudaSelect.disabled = true;
+      } else {
+        const options = ponude
+          .map((ponuda) => `<option value="${ponuda.id}">${ponuda.id}</option>`)
+          .join("");
+        vezanaPonudaSelect.innerHTML = options || "<option value=''>Nema ponuda</option>";
+        vezanaPonudaSelect.disabled = ponude.length === 0;
+      }
+    });
+  });
+}
+
+// Funkcija koja se poziva kada stranica učita korisničke podatke
+function loadUserDataAndProceed() {
+  PoziviAjax.getKorisnik((error, korisnik) => {
+    if (error) {
+      console.error("Greška pri dobijanju korisničkih podataka:", error);
+      alert("Došlo je do greške pri učitavanju korisničkih podataka.");
+    } else {
+      console.log("Korisnik uspešno učitan:", korisnik);
+      // Prikazivanje ponuda korisniku
+      handleUserOfferSelection(korisnik);
+    }
+  });
+}
+
+// Pratimo promjenu u dropdownu za tip interesovanja
+document.addEventListener("DOMContentLoaded", function() {
+  const tipInteresovanjaSelect = document.getElementById("tipInteresovanja");
+  if (tipInteresovanjaSelect) {
+    tipInteresovanjaSelect.addEventListener("change", handleInterestTypeChange);
+  }
+
+  loadUserDataAndProceed();
+  handleInterestTypeChange({ target: { value: "upit" } }); // Početna vrednost
+});
+
