@@ -28,8 +28,8 @@ document.addEventListener("DOMContentLoaded", () => {
             data.forEach(upit => {
                 const listItem = document.createElement("li");
                 listItem.innerHTML = `
-                    <strong>Nekretnina ID:</strong> ${upit.id_nekretnine} <br>
-                    <strong>Tekst upita:</strong> ${upit.tekst_upita}
+                    <strong>Nekretnina ID:</strong> ${upit.nekretninaId} <br>
+                    <strong>Tekst upita:</strong> ${upit.tekst}
                 `;
                 list.appendChild(listItem);
             });

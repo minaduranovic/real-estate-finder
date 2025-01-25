@@ -51,7 +51,7 @@ iframe {
   align-self: auto;
 }
 
-#upiti {
+#upiti,#zahtjevi, #ponude{
   display: flex;
   flex-wrap: wrap;
   gap: 20px;

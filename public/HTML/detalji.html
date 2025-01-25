@@ -6,7 +6,7 @@
     <title>Detalji</title>
     <script src="../Scripts/PoziviAjax.js"></script>
     <script src="../Scripts/carousel.js"></script>
-    <script src="../Scripts/detalji.js"></script>
+    <script src="../Scripts/detalji.js" defer></script>
     <link rel="stylesheet" type="text/css" href="../Style/detalji.css" />
   </head>
 
@@ -23,13 +23,25 @@
     </div>
 
     <h3>UPITI</h3>
-    <div id="upiti"></div>
-
+    <div id="upiti" class="carousel-container"></div>
     <div class="buttons-wrapper">
-      <button class="prev" id="prevBtn">Prev</button>
-      <button class="next" id="nextBtn">Next</button>
+      <button class="prev" id="prevUpiti">Prev</button>
+      <button class="next" id="nextUpiti">Next</button>
     </div>
-    <div id="top5Nekretnine"></div>
+
+    <h3>ZAHTJEVI</h3>
+    <div id="zahtjevi" class="carousel-container"></div>
+    <div class="buttons-wrapper">
+      <button class="prev" id="prevZahtjevi">Prev</button>
+      <button class="next" id="nextZahtjevi">Next</button>
+    </div>
+
+    <h3>PONUDE</h3>
+    <div id="ponude" class="carousel-container"></div>
+    <div class="buttons-wrapper">
+      <button class="prev" id="prevPonude">Prev</button>
+      <button class="next" id="nextPonude">Next</button>
+    </div>
 
     <h3>DODAJ INTERESOVANJE</h3>
     <form id="novaInteresovanjaForma">
@@ -39,13 +51,8 @@
         <option value="zahtjev">Zahtjev</option>
         <option value="ponuda">Ponuda</option>
       </select>
-
       <div id="dodatnaPolja"></div>
-
-      <button type="button" id="dodajInteresovanje">Dodaj</button>
-
-  
+      <button type="button" id="dodajInteresovanje" onclick="dodajInteresovanje()">Dodaj</button>
     </form>
-  
   </body>
 </html>
