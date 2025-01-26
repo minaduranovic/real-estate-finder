@@ -47,17 +47,71 @@ function prikaziDetalje(nekretnina) {
       upitiDiv.appendChild(div);
     });
 
-    interesovanja.zahtjevi.forEach((zahtjev) => {
-      let div = document.createElement("div");
-      div.classList.add("zahtjev");
-      div.innerHTML = `<p><strong>ID: ${zahtjev.id}</strong></br>
-                          Tekst: ${zahtjev.tekst}</br>
-                          Datum: ${zahtjev.trazeniDatum}</br>
-                          Status: ${zahtjev.odobren ? "Odobren" : "Neodobren"}</br> 
-                          </p>`;
-      zahtjeviDiv.appendChild(div);
+ 
+    PoziviAjax.getKorisnik((error, korisnik) => {
+      if (error) {
+        console.error("Greška pri dobijanju korisničkih podataka:", error);
+        return;
+      }
+    
+      const zahtjeviDiv = document.getElementById("zahtjevi");
+      zahtjeviDiv.innerHTML = ""; 
+    
+      let filtriraniZahtjevi = [];
+    
+      interesovanja.zahtjevi.forEach((zahtjev) => {
+        if (!korisnik) {
+          return;
+        }
+    
+        if (!korisnik.admin && korisnik.id !== zahtjev.KorisnikId) {
+          return;
+        }
+    
+        filtriraniZahtjevi.push(zahtjev);
+      });
+      console.log(filtriraniZahtjevi);
+      if (filtriraniZahtjevi.length === 0) {
+        zahtjeviDiv.innerHTML = "<p>Nema zahtjeva za prikaz.</p>";
+        return;
+      }
+    
+      filtriraniZahtjevi.forEach((zahtjev, index) => {
+        let div = document.createElement("div");
+        div.classList.add("zahtjev");
+        div.style.display = index === 0 ? "block" : "none"; 
+        div.innerHTML = `
+          <p><strong>ID: ${zahtjev.id}</strong></p>
+          <p>Tekst: ${zahtjev.tekst}</p>
+          <p>Datum: ${zahtjev.trazeniDatum}</p>
+          <p>Status: ${zahtjev.odobren ? "Odobren" : "Neodobren"}</p>
+        `;
+        zahtjeviDiv.appendChild(div);
+      });
+    
+      let indeksZahtjeva = 0;
+      const sviZahtjevi = document.querySelectorAll("#zahtjevi .zahtjev");
+    
+      const prikaziZahtjev = (noviIndeks) => {
+        sviZahtjevi[indeksZahtjeva].style.display = "none"; 
+        sviZahtjevi[noviIndeks].style.display = "block"; 
+        indeksZahtjeva = noviIndeks;
+      };
+    
+      const lijevoDugme = document.getElementById("prevZahtjevi");
+      const desnoDugme = document.getElementById("nextZahtjevi");
+    
+      lijevoDugme.addEventListener("click", () => {
+        const noviIndeks = (indeksZahtjeva - 1 + sviZahtjevi.length) % sviZahtjevi.length;
+        prikaziZahtjev(noviIndeks);
+      });
+    
+      desnoDugme.addEventListener("click", () => {
+        const noviIndeks = (indeksZahtjeva + 1) % sviZahtjevi.length;
+        prikaziZahtjev(noviIndeks);
+      });
     });
-
+    
     interesovanja.ponude.forEach((ponuda) => {
       let div = document.createElement("div");
       div.classList.add("ponuda");
@@ -67,7 +121,6 @@ function prikaziDetalje(nekretnina) {
       ponudeDiv.appendChild(div);
     });
 
-    // Inicijalizacija carousela za upite
     const sviUpiti = Array.from(upitiDiv.querySelectorAll(".upit"));
     let indeks = 0;
     const carouselUpiti = postaviCarousel(upitiDiv, sviUpiti, indeks);
@@ -90,29 +143,7 @@ function prikaziDetalje(nekretnina) {
       indeks = novi;
     });
 
-    const sviZahtjevi = Array.from(zahtjeviDiv.querySelectorAll(".zahtjev"));
-    let indeksZahtjevi = 0;
-    const carouselZahtjevi = postaviCarousel(zahtjeviDiv, sviZahtjevi, indeksZahtjevi);
-
-    let lijevoDugmeZahtjevi = document.getElementById("prevZahtjevi");
-    lijevoDugmeZahtjevi.addEventListener("click", () => {
-      let novi = (indeksZahtjevi - 1 + sviZahtjevi.length) % sviZahtjevi.length;
-      carouselZahtjevi.fnLijevo();
-      sviZahtjevi[indeksZahtjevi].id = "";
-      sviZahtjevi[novi].id = "prikazujeSe";
-      indeksZahtjevi = novi;
-    });
-
-    let desnoDugmeZahtjevi = document.getElementById("nextZahtjevi");
-    desnoDugmeZahtjevi.addEventListener("click", () => {
-      let novi = (indeksZahtjevi + 1) % sviZahtjevi.length;
-      carouselZahtjevi.fnDesno();
-      sviZahtjevi[indeksZahtjevi].id = "";
-      sviZahtjevi[novi].id = "prikazujeSe";
-      indeksZahtjevi = novi;
-    });
-
-    // Inicijalizacija carousela za ponude
+  
     const sviPonude = Array.from(ponudeDiv.querySelectorAll(".ponuda"));
     let indeksPonude = 0;
     const carouselPonude = postaviCarousel(ponudeDiv, sviPonude, indeksPonude);
@@ -209,44 +240,6 @@ function prikaziTop5Nekretnina(nekretnine) {
     `;
 }
 
-// function handleUserOfferSelection(korisnik) {
-//   const korisnikId = korisnik.id; 
-//   console.log(korisnikId);
-//   PoziviAjax.getPonudeZaKorisnika(nekretninaId, korisnikId, (error, ponude) => {
-//     const dodatnaPoljaDiv = document.getElementById("dodatnaPolja");
-//     if (error) {
-//       console.error("Greška pri dohvaćanju ponuda:", error);
-//       dodatnaPoljaDiv.innerHTML = "<p>Došlo je do greške.</p>";
-//     } else {
-//       const options = ponude
-//         .map((ponuda) => `<option value="${ponuda.id}">${ponuda.id}</option>`)
-//         .join("");
-//       dodatnaPoljaDiv.innerHTML = `
-//               <label for="vezanaPonuda">ID vezane ponude:</label>
-//               <select id="vezanaPonuda" name="vezanaPonuda" ${
-//                 options ? "" : "disabled"
-//               }>
-//                   ${options || "<option value=''>Nema ponuda</option>"}
-//               </select>
-//               <label for="tekstPonude">Tekst:</label>
-//               <textarea id="tekstPonude" name="tekstPonude" required></textarea>
-//           `;
-//     }
-//   });
-// }
-
-// function loadUserDataAndProceed() {
-//   PoziviAjax.getKorisnik((error, korisnik) => {
-//     if (error) {
-//       console.error("Greška pri dobijanju korisničkih podataka:", error);
-//       alert("Došlo je do greške pri učitavanju korisničkih podataka.");
-//     } else {
-//       // handleUserOfferSelection(korisnik);
-//     }
-//   });
-// }
-
-// window.onload = loadUserDataAndProceed;
 
 function handleInterestTypeChange(event) {
   const tipInteresovanja = event.target.value;
@@ -284,7 +277,7 @@ function handleInterestTypeChange(event) {
 function loadUserOffers() {
   PoziviAjax.getKorisnik((error, korisnik) => {
     if (error) {
-      console.error("Greška pri dobijanju korisničkih podataka:", error);
+      // console.error("Greška pri dobijanju korisničkih podataka:", error);
       return;
     }
 
@@ -309,8 +302,8 @@ function loadUserOffers() {
 function loadUserDataAndProceed() {
   PoziviAjax.getKorisnik((error, korisnik) => {
     if (error) {
-      console.error("Greška pri dobijanju korisničkih podataka:", error);
-      alert("Došlo je do greške pri učitavanju korisničkih podataka.");
+      // console.error("Greška pri dobijanju korisničkih podataka:", error);
+      // alert("Došlo je do greške pri učitavanju korisničkih podataka.");
     } else {
       // console.log("Korisnik uspešno učitan:", korisnik);
       // handleUserOfferSelection(korisnik);

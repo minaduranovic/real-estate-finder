@@ -4,12 +4,12 @@ const path = require("path");
 const fs = require("fs").promises; // Using asynchronus API for file read and write
 const bcrypt = require("bcrypt");
 
-const sequelize = require("./db");
-const Korisnik = require("./models/Korisnik");
-const Nekretnina = require("./models/Nekretnina");
-const Upit = require("./models/Upit");
-const Zahtjev = require("./models/Zahtjev");
-const Ponuda = require("./models/Ponuda");
+const sequelize = require("./config/db");
+const Korisnik = require("./config/models/Korisnik");
+const Nekretnina = require("./config/models/Nekretnina");
+const Upit = require("./config/models/Upit");
+const Zahtjev = require("./config/models/Zahtjev");
+const Ponuda = require("./config/models/Ponuda");
 
 Korisnik.hasMany(Upit);
 Upit.belongsTo(Korisnik);
@@ -39,28 +39,59 @@ sequelize.sync({ alter: true }).then(async () => {
   const adminPassword = await bcrypt.hash("admin", 10);
   const userPassword = await bcrypt.hash("user", 10);
 
-  // await Korisnik.findOrCreate({
-  //   where: { username: "admin" },
-  //   defaults: {
-  //     username: "admin",
-  //     password: adminPassword,
-  //     admin: true,
-  //     ime: "Admin",
-  //     prezime: "Adminovic"
-  //   },
-  // });
+  await Korisnik.findOrCreate({
+    where: { username: "admin" },
+    defaults: {
+      username: "admin",
+      password: adminPassword,
+      admin: true,
+      ime: "Admin",
+      prezime: "Adminovic"
+    },
+  });
 
-  // await Korisnik.findOrCreate({
-  //   where: { username: "user" },
-  //   defaults: {
-  //     username: "user",
-  //     password: userPassword,
-  //     admin: false,
-  //     ime: "User",
-  //     prezime: "Useric"
-  //   },
-  // });
+  await Korisnik.findOrCreate({
+    where: { username: "user" },
+    defaults: {
+      username: "user",
+      password: userPassword,
+      admin: false,
+      ime: "User",
+      prezime: "Useric"
+    },
+  });
+
+  await Nekretnina.findOrCreate({
+    where: { id: 1 },
+    defaults: {
+      tip_nekretnine: "Stan",
+      naziv: "Useljiv stan Sarajevo",
+      kvadratura: 58,
+      cijena: 232000,
+      tip_grijanja: "plin",
+      lokacija: "Novo Sarajevo",
+      godina_izgradnje: 2019,
+      datum_objave: "01.10.2023.",
+      opis: "Sociis natoque penatibus."
+    },
+  });
+
+  await Nekretnina.findOrCreate({
+    where: { id: 2 },
+    defaults: {
+      tip_nekretnine: "Poslovni prostor",
+      naziv: "Mali poslovni prostor",
+      kvadratura: 20,
+      cijena: 70000,
+      tip_grijanja: "struja",
+      lokacija: "Centar",
+      godina_izgradnje: 2005,
+      datum_objave: "20.08.2023.",
+      opis: "Magnis dis parturient montes."
+    },
+  });
 });
+
 
 // module.exports = { sequelize, Korisnik, Nekretnina, Upit, Zahtjev, Ponuda };
 
@@ -146,6 +177,8 @@ If the data is correct, the username is saved in the session and a success messa
 app.post("/login", async (req, res) => {
   const { username, password } = req.body;
   const sadasnjeVrijeme = Date.now();
+  const putanjaZaLogove = path.join(__dirname, "data", "prijave.txt");
+
 
   try {
     if (
@@ -153,6 +186,10 @@ app.post("/login", async (req, res) => {
       podaciOgranicenja[username].blockedUntil &&
       sadasnjeVrijeme < podaciOgranicenja[username].blockedUntil
     ) {
+      await fs.appendFile(
+        putanjaZaLogove,
+        `[${new Date().now().toISOString()}] - username: "${username}" - status: "neuspješno"\n`
+      );
       return res.status(429).json({
         greska: "Previše neuspješnih pokušaja. Pokušajte ponovo za 1 minutu.",
       });
@@ -181,6 +218,10 @@ app.post("/login", async (req, res) => {
     if (podaciOgranicenja[username]) {
       delete podaciOgranicenja[username];
     }
+    await fs.appendFile(
+      putanjaZaLogove,
+      `[${new Date().toISOString()}] - username: "${username}" - status: "uspješno"\n`
+    );
 
     res.json({ poruka: "Uspješna prijava" });
   } catch (error) {
