@@ -14,7 +14,14 @@ const PORT =  3000;
 
 app.use(session);
 app.use(express.json());
-app.use(express.static("public"));
+
+app.use(express.static(path.join(__dirname, 'public')));
+
+// Ruta za serviranje JavaScript fajlova sa ispravnim MIME tipom
+app.get('/scripts/:file', (req, res) => {
+  res.set('Content-Type', 'application/javascript');
+  res.sendFile(path.join(__dirname, 'scripts', req.params.file));
+});
 
 async function serveHTMLFile(req, res, fileName) {
   const htmlPath = path.join(__dirname, "public/html", fileName);
